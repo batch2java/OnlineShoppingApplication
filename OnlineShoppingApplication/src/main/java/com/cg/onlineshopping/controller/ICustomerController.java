@@ -2,6 +2,8 @@ package com.cg.onlineshopping.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cg.onlineshopping.entities.Customer;
 import com.cg.onlineshopping.pojo.InputCustomer;
 import com.cg.onlineshopping.service.ICustomerService;
-import com.cg.onlineshopping.service.impl.ICustomerServiceimpl;
 
 @RestController
-@RequestMapping("/api/v2")
+@RequestMapping("/api/v1")
 public class ICustomerController {
 
 	@Autowired
@@ -28,7 +29,7 @@ public class ICustomerController {
 	Logger logger = LoggerFactory.getLogger(ICustomerController.class);
 	
 	@PostMapping(path="/createCustomer")
-    public InputCustomer addCustomer( @RequestBody InputCustomer customer) {
+    public InputCustomer addCustomer(@Valid @RequestBody InputCustomer customer) {
         logger.info("Customer addCustomer");
         return customerService.addCustomer(customer) ;
     }

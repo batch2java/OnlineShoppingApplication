@@ -14,10 +14,10 @@ import com.cg.onlineshopping.repository.IProductRepository;
 import com.cg.onlineshopping.service.IProductService;
 
 @Service
-public class IProductServiceimpl implements IProductService{
+public class IProductServiceImpl implements IProductService{
 	@Autowired
 	IProductRepository proRepo;
-	Logger logger = LoggerFactory.getLogger(IProductServiceimpl.class);
+	Logger logger = LoggerFactory.getLogger(IProductServiceImpl.class);
 
 
 	@Override

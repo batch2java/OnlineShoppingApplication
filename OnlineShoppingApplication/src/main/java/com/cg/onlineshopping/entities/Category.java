@@ -4,8 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
+import javax.validation.constraints.NotEmpty;
 @Entity
 public class Category {
     
@@ -13,6 +13,8 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "category_seq")
     @SequenceGenerator(sequenceName = "category_seq", allocationSize = 1, name = "category_seq")
 	private Integer catId;
+	@NotEmpty(message="categoryname should not be null")
+
 	private String categoryName;
 	public Integer getCatId() {
 		return catId;

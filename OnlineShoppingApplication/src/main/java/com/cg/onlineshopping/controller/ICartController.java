@@ -1,12 +1,12 @@
 package com.cg.onlineshopping.controller;
 
-import java.util.List;
+import java.util.Map;
+
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,7 +24,7 @@ import com.cg.onlineshopping.service.ICartService;
 
 
 @RestController
-@RequestMapping("/api/v2")
+@RequestMapping("/api/v1")
 
 
 public class ICartController {
@@ -34,17 +34,11 @@ public class ICartController {
 
 	
 
-	/*@PostMapping("/addcart")
-	public Cart addProductToCart(@RequestBody Cart cart, @RequestBody Product product, @RequestBody int quantity)
+	@PostMapping("/addcart")
+	public OutputCart addProductToCart1(@Valid @RequestBody InputCart cart)
 	{
 		logger.info("Cart addProductToCart()");
-		return cartService.addProductToCart(cart, product, quantity);
-	}*/
-	@PostMapping("/addcart1")
-	public OutputCart addProductToCart1(@RequestBody InputCart cart)
-	{
-		logger.info("Cart addProductToCart1()");
-		return cartService.addProductToCart1(cart);
+		return cartService.addProductToCart(cart);
 	}
 
 
@@ -54,6 +48,13 @@ public class ICartController {
 		logger.info("Cart removeProductFromCart()");
 		return cartService.removeProductFromCart(cartId, productId);
 	}
+	@DeleteMapping("/emptycart/{cartId}")
+	public Cart makeCartEmpty(@PathVariable Integer cartId)
+	{
+		logger.info("Cart makeCartEmpty()");
+		return cartService.makeCartEmpty( cartId);
+	}
+
 
 	/*@DeleteMapping("/deletebycartid/{cartId}")
     public Cart removeAllProductsById(@PathVariable Integer cartId)
@@ -71,7 +72,7 @@ public class ICartController {
 
 
 	@GetMapping("/getcartproducts/{cartId}")
-	public List<Product> viewAllProducts( @PathVariable Integer cartId)
+	public Map<Integer,Integer>  viewAllProducts( @PathVariable Integer cartId)
 	{
 		logger.info("Cart viewAllProducts()");
 		return cartService.viewAllProducts(cartId);

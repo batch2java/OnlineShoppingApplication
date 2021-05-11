@@ -15,17 +15,16 @@ import com.cg.onlineshopping.error.CustomerNotFoundException;
 import com.cg.onlineshopping.pojo.InputCustomer;
 import com.cg.onlineshopping.repository.IAddressRepository;
 import com.cg.onlineshopping.repository.ICustomerRepository;
-import com.cg.onlineshopping.service.IAddressService;
 import com.cg.onlineshopping.service.ICustomerService;
 @Service
-public class ICustomerServiceimpl implements ICustomerService {
+public class ICustomerServiceImpl implements ICustomerService {
 
 	
 	@Autowired
 	ICustomerRepository customerRepo;
 	@Autowired
 	IAddressRepository addressRepo;
-	Logger logger = LoggerFactory.getLogger(ICustomerServiceimpl.class);
+	Logger logger = LoggerFactory.getLogger(ICustomerServiceImpl.class);
 	
 	@Override
 	public InputCustomer addCustomer(InputCustomer cust) {

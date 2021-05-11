@@ -2,7 +2,6 @@ package com.cg.onlineshopping.entities;
 
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.persistence.CascadeType;
@@ -11,7 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 @Entity
@@ -22,8 +21,11 @@ public class Cart {
 	private Integer cartId;
 	//private String userId;
 	@ElementCollection
+	@JoinColumn(name="quantity")
+	//@MapKey(name="productId")
 	private Map<Product,Integer>products= new HashMap<Product,Integer>(); // product and quantity 
 	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="customerId")
 	private Customer customer;
     public Integer getCartId() {
 		return cartId;

@@ -2,12 +2,16 @@ package com.cg.onlineshopping.pojo;
 
 import java.time.LocalDate;
 
+import javax.validation.constraints.NotEmpty;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class InputOrder {
 	private Integer orderId;
+	@NotEmpty(message= "orderStatus can not be null")
 	private String orderStatus;
 	@JsonFormat(pattern = "yyyy-MM-dd")
+	@NotEmpty(message= "orderDate can not be null")
 	private LocalDate orderDate;
 	private Integer addressId;
 	private Integer customerId;

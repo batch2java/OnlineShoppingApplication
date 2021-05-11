@@ -1,6 +1,11 @@
 package com.cg.onlineshopping.pojo;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 public class InputCart {
+	@NotNull(message =" quantity should not be empty")
+	@Min(value=1,message="Quantity should be greater than zero")
 	private int quantity;
 	 private Integer customerId;
 	 private Integer cartId;

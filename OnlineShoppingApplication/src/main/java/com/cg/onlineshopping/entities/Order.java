@@ -2,7 +2,6 @@ package com.cg.onlineshopping.entities;
 
 import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.persistence.ElementCollection;
@@ -10,10 +9,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "Orders")
@@ -22,13 +22,15 @@ public class Order {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "order_seq")
     @SequenceGenerator(sequenceName = "order_seq", allocationSize = 1, name = "order_seq")
 	private Integer orderId;
-	// private String userId;
-	// private String addressId;
+	
+	@NotEmpty(message="orderStatus should not empty")
 	private String orderStatus;
 	private LocalDate orderDate;
 	@ManyToOne
+	@JoinColumn(name="addressId")
 	private Address address;
 	@ManyToOne
+	@JoinColumn(name="customerId")
 	private Customer customer;
 	@ElementCollection
 	private Map<Product, Integer> products = new HashMap<Product, Integer>();

@@ -1,14 +1,15 @@
 package com.cg.onlineshopping.entities;
 
-import java.util.List;
+
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Entity
 
@@ -17,16 +18,22 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "address_seq")
     @SequenceGenerator(sequenceName = "address_seq", allocationSize = 1, name = "address_seq")
 	private int addressId;
+    @NotEmpty(message="Street_no should not empty")
 	private String streetNo;
+
+	@NotEmpty(message="Building Name should not empty")
 	private String buildingName;
+	@NotEmpty(message="City should not empty")
 	private String  city;
+
+	@NotEmpty(message="State should not empty")
 	private String state;
+	@NotEmpty(message="Country should not empty")
 	private String country;	
+	@Size(min=6, max=10, message="Pincode should minimum be 6 and maximum 10")
 	private String pincode;
 	@OneToOne(mappedBy = "address")
 	private Customer customer;
-//	@OneToMany(mappedBy = "address")
-//	private List<Order> olist ;
 	public int getAddressId() {
 		return addressId;
 	}

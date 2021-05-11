@@ -1,6 +1,7 @@
 package com.cg.onlineshopping.service;
 
-import java.util.List;
+
+import java.util.Map;
 
 import com.cg.onlineshopping.entities.Cart;
 import com.cg.onlineshopping.entities.Product;
@@ -9,10 +10,10 @@ import com.cg.onlineshopping.pojo.OutputCart;
 
 public interface ICartService {
 
-	//public Cart addProductToCart(Cart cart, Product p,int quantity);
+	
 	public  Cart removeProductFromCart(Integer cartId,Integer productId);
+	public  Cart makeCartEmpty(Integer cartId);
 	public Cart updateProductQuantity(Cart cart, Product p,int quantity);
-	//public Cart removeCartById(Integer cartId);
-	public List <Product> viewAllProducts(Integer cartId);
-	public OutputCart addProductToCart1(InputCart cart);
+	public Map<Integer,Integer>  viewAllProducts(Integer cartId);
+	public OutputCart addProductToCart(InputCart cart);
 }

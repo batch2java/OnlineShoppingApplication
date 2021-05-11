@@ -1,26 +1,35 @@
 package com.cg.onlineshopping.entities;
 
-import java.util.List;
+
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 @Entity
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "customer_seq")
     @SequenceGenerator(sequenceName = "customer_seq", allocationSize = 1, name = "customer_seq")
 	private Integer customerId;
+
+	@NotEmpty(message= "First Name can not be null")
 	private String firstName;
+	@NotEmpty(message= "Last Name can not be null")
 	private String lastName;
+	@NotEmpty(message= "mobileNumber can not be null")
+	@Size(min = 10, message="Mobile no should be in 10 digits")
 	private String mobileNumber;
+	@NotEmpty(message= "email can not be null")
 	private String email;
 	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "address")
 	private Address address;
 //	@OneToOne
 //	private User user;

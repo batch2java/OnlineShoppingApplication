@@ -1,4 +1,4 @@
-package com.cg.onlineshopping.service;
+package com.cg.onlineshopping.service.impl;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,10 +13,10 @@ import com.cg.onlineshopping.error.AddressNotFoundException;
 import com.cg.onlineshopping.repository.IAddressRepository;
 import com.cg.onlineshopping.service.IAddressService;
 @Service
-public class IAdressServiceimpl implements IAddressService {
+public class IAdressServiceImpl implements IAddressService {
 @Autowired
 IAddressRepository addressRepo;
-Logger logger = LoggerFactory.getLogger(IAdressServiceimpl.class);
+Logger logger = LoggerFactory.getLogger(IAdressServiceImpl.class);
 
 	
 

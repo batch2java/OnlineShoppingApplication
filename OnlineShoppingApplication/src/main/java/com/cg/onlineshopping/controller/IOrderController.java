@@ -1,7 +1,6 @@
 package com.cg.onlineshopping.controller;
 
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -18,12 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cg.onlineshopping.entities.Order;
 import com.cg.onlineshopping.pojo.InputOrder;
-import com.cg.onlineshopping.pojo.OutputOrder;
 import com.cg.onlineshopping.repository.IOrderRepository;
 import com.cg.onlineshopping.service.IOrderService;
 
 @RestController
-@RequestMapping("/api/v2")
+@RequestMapping("/api/v1")
 public class IOrderController {
 	
 	@Autowired
@@ -33,29 +31,20 @@ public class IOrderController {
 	Logger logger = LoggerFactory.getLogger(IOrderController.class);
 
 
-	
-	/*@PostMapping("/addorder")
-	public List<Order> addOrder(@RequestBody Order[] order) 
-	{
-		List<Order> orderList = Arrays.asList(order);
-		logger.info("order addOrder");
-		return orderList;
 
-	}*/
-
-	@PostMapping("/addorder1")
-	public InputOrder addOrder1(@RequestBody InputOrder order) 
+	@PostMapping("/addorder")
+	public InputOrder addOrder(@RequestBody InputOrder order) 
 	{
 	
-		logger.info("order addOrder1()");
+		logger.info("order addOrder()");
 		
-		return orderService.addOrder1(order);
+		return orderService.addOrder(order);
 
 	}
 
 
 	@PutMapping("/updateorder")
-	public Order updateOrder( @RequestBody Order order) {
+	public InputOrder updateOrder( @RequestBody InputOrder order) {
 		logger.info("Order updateOrder");
 		return order;
 

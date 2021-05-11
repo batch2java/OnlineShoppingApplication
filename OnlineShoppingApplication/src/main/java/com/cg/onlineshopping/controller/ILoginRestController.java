@@ -15,7 +15,7 @@ import com.cg.onlineshopping.entities.User;
 import com.cg.onlineshopping.service.ILoginService;
 
 @RestController
-@RequestMapping("/api/v2")
+@RequestMapping("/api/v1")
 public class ILoginRestController {
 	
 	

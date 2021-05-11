@@ -2,11 +2,11 @@ package com.cg.onlineshopping.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +21,7 @@ import com.cg.onlineshopping.service.IAddressService;
 
 
 @RestController
-@RequestMapping("/api/v2")
+@RequestMapping("/api/v1")
 
 
 public class IAddressController {
@@ -31,7 +31,7 @@ public class IAddressController {
 
 	
 	@PostMapping(path="/create")
-	public Address addAddress(@RequestBody Address add)
+	public Address addAddress(@Valid @RequestBody Address add)
 	{
 		logger.info("Address addAddress()");
 		return addressService.addAddress(add);

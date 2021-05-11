@@ -1,11 +1,9 @@
 package com.cg.onlineshopping.entities;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "Users")
@@ -16,7 +14,9 @@ public class User {
     /*@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "user_seq")
     @SequenceGenerator(sequenceName = "user_seq", allocationSize = 1, name = "user_seq")*/
 	private Integer userId;
+    @NotEmpty(message="password should not empty")
 	private String password;
+    @NotEmpty(message="role should not empty")
 	private String role;
 	public Integer getUserId() {
 		return userId;

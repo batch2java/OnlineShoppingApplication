@@ -11,7 +11,7 @@ public interface IAddressService {
 	public Address removeAddress(int addressId);
 	public List<Address> viewAllAddress();
 	public Address viewAddress(int addressId);
-	//Address viewAddressByCustomerId(int customerId);
+	
 	
 	
 }

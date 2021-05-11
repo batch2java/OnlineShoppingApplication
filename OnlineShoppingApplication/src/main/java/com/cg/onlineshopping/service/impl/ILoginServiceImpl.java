@@ -14,11 +14,11 @@ import com.cg.onlineshopping.error.UserNotFoundException;
 import com.cg.onlineshopping.repository.ILoginRepository;
 import com.cg.onlineshopping.service.ILoginService;
 @Service
-public class ILoginServiceimpl implements ILoginService {
+public class ILoginServiceImpl implements ILoginService {
 
 	@Autowired
 	ILoginRepository loginRepo;
-	Logger logger = LoggerFactory.getLogger(ILoginServiceimpl.class);
+	Logger logger = LoggerFactory.getLogger(ILoginServiceImpl.class);
 
 
 	@Override

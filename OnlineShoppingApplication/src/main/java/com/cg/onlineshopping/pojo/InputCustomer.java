@@ -1,17 +1,29 @@
 package com.cg.onlineshopping.pojo;
 
+import javax.validation.constraints.NotEmpty;
+
 public class InputCustomer {
 	private Integer customerId;
+	@NotEmpty(message= "First Name can not be null")
 	private String firstName;
+	@NotEmpty(message= "Last Name can not be null")
 	private String lastName;
+	@NotEmpty(message= "mobileNumber can not be null")
 	private String mobileNumber;
+	@NotEmpty(message= "email can not be null")
 	private String email;
 	private int addressId;
+	@NotEmpty(message= "strretNo can not be null")
 	private String streetNo;
+	@NotEmpty(message= "buildingName can not be null")
 	private String buildingName;
+	@NotEmpty(message= "city can not be null")
 	private String  city;
+	@NotEmpty(message= "state can not be null")
 	private String state;
+	@NotEmpty(message= "country can not be null")
 	private String country;	
+	@NotEmpty(message= "pincode can not be null")
 	private String pincode;
 	private Integer cartId;
 	public Integer getCustomerId() {
