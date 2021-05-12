@@ -27,34 +27,34 @@ public class ICustomerController {
 	@Autowired
 	ICustomerService customerService;
 	Logger logger = LoggerFactory.getLogger(ICustomerController.class);
-	
+	//To add customer
 	@PostMapping(path="/createCustomer")
     public InputCustomer addCustomer(@Valid @RequestBody InputCustomer customer) {
         logger.info("Customer addCustomer");
         return customerService.addCustomer(customer) ;
     }
-	
+	//To update customer
 	@PutMapping(path="/updateCustomer")
-    public Customer updateCustomer( @RequestBody Customer customer) {
+    public InputCustomer updateCustomer( @RequestBody InputCustomer customer) {
 		logger.info("Customer addCustomer");
         return customerService.updateCustomer(customer);
     }
-	
+	//To delete customer
 	@DeleteMapping(path="/deleteCustomerById/{customerId}")
-    public Customer removeCustomer( @RequestBody Customer customer) {
+    public InputCustomer removeCustomer( @PathVariable Integer customerId) {
 		logger.info("Customer removeCustomer");
-        return customerService.removeCustomer(customer) ;
+        return customerService.removeCustomer(customerId) ;
     }
-	
+	//To get customer details by location 
 	@GetMapping(path = "/getallcustomer/{location}")
-    public List<Customer> viewAllCustomers(@PathVariable String location){
+    public List<InputCustomer> viewAllCustomers(@PathVariable String location){
 		logger.info("Customer viewAllCustomer");
         return customerService.viewAllCustomers(location) ;
         
     }
-	
+	//To get customer details by Id
 	@GetMapping(path = "/getCustomerById/{customerId}")
-    public Customer viewCustomer(Customer customerId){
+    public InputCustomer viewCustomer(@PathVariable Integer customerId){
 		logger.info("Customer viewCustomer");
         return customerService.viewCustomer(customerId) ;
     }

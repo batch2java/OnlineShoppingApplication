@@ -4,6 +4,7 @@ package com.cg.onlineshopping.service.impl;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,70 +29,10 @@ public class ICartServiceImpl implements ICartService{
 	Logger logger = LoggerFactory.getLogger(ICartServiceImpl.class);
 	@Autowired
 	ICustomerRepository custRepo;
-
 	
-	
-
+	//To add products to cart
 	@Override
-	public Cart removeProductFromCart(Integer cartId, Integer productId ) {
-		// TODO Auto-generated method stub
-		 logger.info("Cart removeProductFromCart()");
-		  Cart cart=cartRepo.findById(cartId).orElse(null);
-	        Map<Product,Integer> productmap=cart.getProducts();
-	        for(Product p:productmap.keySet()) {
-	            if(p.getProductId().equals(productId)) {
-	                productmap.remove(p);
-	                cart.setProducts(productmap);
-	               
-	            }
-	        }
-	        
-	       cart = cartRepo.save(cart);
-	       return cart;
-	        }
-	       
-	        
-	    
-	
-
-
-	@Override
-	public Cart updateProductQuantity(Cart cart, Product p, int quantity) {
-		// TODO Auto-generated method stub
-		 logger.info("Cart updateProductToCart()");
-			
-			p.setQuantity(quantity);
-			productRepo.save(p);
-			cartRepo.save(cart);
-			return cart;
-	}
-	
-
-	
-	@Override
-	public Map<Integer,Integer>  viewAllProducts(Integer cartId) {
-		// TODO Auto-generated method stub
-		logger.info("Cart viewAllProducts()");
-		Cart cart = cartRepo.findById(cartId).orElse(null);
-		if(cart==null) {
-			throw new CartNotFoundException();
-		}
-		else {
-		Map<Integer,Integer> map = new HashMap<Integer,Integer>();
-		Map<Product,Integer>products= cart.getProducts();
-		
-		
-		for(Product p:products.keySet()) {
-			map.put(p.getProductId(), products.get(p));
-			
-		}
-		return map;
-		}
-		 
-	    }
-	
-
-	@Override
+	@Transactional
 	public OutputCart addProductToCart(InputCart cart) {
 		// TODO Auto-generated method stub
 		logger.info("Cart addProductToCart1()");
@@ -123,10 +64,57 @@ public class ICartServiceImpl implements ICartService{
 	}
 
 
-
-
-
-
+	
+	//To remove products from cart
+    @Transactional
+	@Override
+	public Cart removeProductFromCart(Integer cartId, Integer productId ) {
+		// TODO Auto-generated method stub
+		 logger.info("Cart removeProductFromCart()");
+		  Cart cart=cartRepo.findById(cartId).orElse(null);
+	        Map<Product,Integer> productmap=cart.getProducts();
+	        for(Product p:productmap.keySet()) {
+	            if(p.getProductId().equals(productId)) {
+	                productmap.remove(p);
+	                cart.setProducts(productmap);
+	               
+	            }
+	        }
+	        
+	       cart = cartRepo.save(cart);
+	       return cart;
+	        }
+	       
+	        
+	    
+	
+    //To view all products in cart
+	@Override
+	@Transactional
+	public Map<Integer,Integer>  viewAllProducts(Integer cartId) {
+		// TODO Auto-generated method stub
+		logger.info("Cart viewAllProducts()");
+		Cart cart = cartRepo.findById(cartId).orElse(null);
+		if(cart==null) {
+			throw new CartNotFoundException();
+		}
+		else {
+		Map<Integer,Integer> map = new HashMap<Integer,Integer>();
+		Map<Product,Integer>products= cart.getProducts();
+		
+		
+		for(Product p:products.keySet()) {
+			map.put(p.getProductId(), products.get(p));
+			
+		}
+		return map;
+		}
+		 
+	    }
+	
+	
+	//To empty cart products
+    @Transactional
 	@Override
 	public Cart makeCartEmpty(Integer cartId) {
 		// TODO Auto-generated method stub

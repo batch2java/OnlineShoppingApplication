@@ -3,6 +3,8 @@ package com.cg.onlineshopping.controller;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +33,9 @@ public class IOrderController {
 	Logger logger = LoggerFactory.getLogger(IOrderController.class);
 
 
-
+     //To add order
 	@PostMapping("/addorder")
-	public InputOrder addOrder(@RequestBody InputOrder order) 
+	public InputOrder addOrder(@Valid @RequestBody InputOrder order) 
 	{
 	
 		logger.info("order addOrder()");
@@ -41,41 +43,29 @@ public class IOrderController {
 		return orderService.addOrder(order);
 
 	}
-
-
-	@PutMapping("/updateorder")
-	public InputOrder updateOrder( @RequestBody InputOrder order) {
-		logger.info("Order updateOrder");
-		return order;
-
-	}
+    //To delete order by id
 	@DeleteMapping("/orderbyid/{orderId}")
-	public Order removeOrder(@PathVariable Integer orderId) {
+	public InputOrder removeOrder(@PathVariable Integer orderId) {
 		logger.info(" Order removeOrder()");
 		return orderService.removeOrder(orderId);
 	}
 	
 	
-	@GetMapping("/getorder")
-	public List<Order> viewAllOrder(){
-		logger.info("Order viewAllorder ");
-		return orderRepo.findAll();
-	}
-	
+	//To get order details by customer id
 	@GetMapping("/orderbycustomerid/{customerId}")
-	public List<Order> viewAllOderByCustomerId(@PathVariable("customerId") Integer customerId){
+	public List<InputOrder> viewAllOderByCustomerId(@PathVariable("customerId") Integer customerId){
 		return orderService.viewAllOrderByCustomerId(customerId);
 	}
-	  
+	//To get order details by order date  
    @GetMapping("/orderbydate/{date}")
-   public List<Order> viewAllOrders(@PathVariable LocalDate date) {
+   public List<InputOrder> viewAllOrders(@PathVariable LocalDate date) {
 	   logger.info("Order viewAllOrders");
     return orderService.viewAllOrderByDate(date);
 }
 
-
+   //To get order details by customer location
    @GetMapping("/orderbylocation/{location}")
-   public List<Order> viewOrdersByLocation(@PathVariable String location) {
+   public List<InputOrder> viewOrdersByLocation(@PathVariable String location) {
    logger.info("Order viewOrdersByLocation");
 	return orderService.viewAllOrdersByLocation(location);
 

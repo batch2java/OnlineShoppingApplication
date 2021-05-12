@@ -1,5 +1,7 @@
 package com.cg.onlineshopping.controller;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,19 +25,19 @@ public class ILoginRestController {
 	ILoginService loginService;
 	Logger logger = LoggerFactory.getLogger(ILoginRestController.class);
 
-	
+	//To add user
 	@PostMapping("/userlogin")
-	public User addUser( @RequestBody User user) {
+	public User addUser(@Valid @RequestBody User user) {
 		logger.info("User addUser()");
 		return loginService.addUser(user);
 	}
-
+     //To validate user
 	@GetMapping("/getuser/{userId}")
 	public User validateUser(@PathVariable Integer userId) {
 		logger.info("User validateUser()");
 		return loginService.validateUser(userId);
 	}
-
+    //To delete user
 	@DeleteMapping("/deleteuser/{userId}")
 	public User removeUser(@PathVariable Integer userId) {
 		logger.info("User removeUser()");

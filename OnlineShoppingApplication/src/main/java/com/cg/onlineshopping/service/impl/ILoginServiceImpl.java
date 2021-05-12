@@ -20,7 +20,7 @@ public class ILoginServiceImpl implements ILoginService {
 	ILoginRepository loginRepo;
 	Logger logger = LoggerFactory.getLogger(ILoginServiceImpl.class);
 
-
+    //To add user
 	@Override
 	@Transactional
 	public User addUser(User user) {
@@ -32,7 +32,7 @@ public class ILoginServiceImpl implements ILoginService {
 			return user;
 		}
 	}
-
+    //To remove user
 	@Override
 	@Transactional
 	public User removeUser(Integer userId) {
@@ -45,7 +45,7 @@ public class ILoginServiceImpl implements ILoginService {
 			return users.get();
 		}
 	}
-
+    //To validate user
 	@Override
 	@Transactional
 	public User validateUser(Integer userId) {
@@ -58,7 +58,7 @@ public class ILoginServiceImpl implements ILoginService {
 			return u;	
 		}
 
-
+    //for signing out
 	@Override
 	@Transactional
 	public User signOut(User user) {

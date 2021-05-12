@@ -3,15 +3,15 @@ package com.cg.onlineshopping.service;
 import java.util.List;
 
 import com.cg.onlineshopping.entities.Address;
+import com.cg.onlineshopping.pojo.InputAddress;
 
 public interface IAddressService {
 
-	public Address addAddress(Address add);
-	public Address updateAddress(Address add);
-	public Address removeAddress(int addressId);
-	public List<Address> viewAllAddress();
-	public Address viewAddress(int addressId);
-	
+	public InputAddress addAddress(InputAddress add);
+	public InputAddress updateAddress(InputAddress add);
+	public InputAddress removeAddress(int addressId);
+	public List<InputAddress> viewAllAddress();
+	public InputAddress viewAddress(int addressId);	
 	
 	
 }

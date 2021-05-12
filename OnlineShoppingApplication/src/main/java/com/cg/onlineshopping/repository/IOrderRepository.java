@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.cg.onlineshopping.entities.Order;
+import com.cg.onlineshopping.pojo.InputOrder;
 
 
 public interface IOrderRepository extends JpaRepository<Order, Integer> {
@@ -29,8 +30,7 @@ public interface IOrderRepository extends JpaRepository<Order, Integer> {
 	//public List<Order> viewAllCustomersByLocation(@Param("address")String address);
 	 @Query("select o from Order o where o.customer.customerId=:customerId")
 	    public List<Order> viewAllOrdersByCustomer(@Param("customerId") Integer customerId);
-	 @Query("select o from Order o" )
-	 		//(where o.address.city=:location")
+	 @Query("select o from Order o where o.address.city=:location")
 		public List<Order> viewAllOrdersByLocation(@Param("location")String location);
 
 	

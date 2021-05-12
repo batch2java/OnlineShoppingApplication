@@ -1,22 +1,20 @@
 package com.cg.onlineshopping.service.impl;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.ArrayList;
+
 import java.util.List;
-import java.util.Optional;
+
 
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.cg.onlineshopping.entities.Address;
-import com.cg.onlineshopping.entities.Customer;
 import com.cg.onlineshopping.pojo.InputCustomer;
 import com.cg.onlineshopping.repository.ICustomerRepository;
+import com.cg.onlineshopping.service.ICustomerService;
 
 @SpringBootTest
 class ICustomerServiceImplTest {
@@ -29,131 +27,74 @@ class ICustomerServiceImplTest {
     @Mock
     ICustomerRepository customerRepo;
     
-    
+    @Autowired
+    ICustomerService service;
     @Test
-    public void addCustomerMockTest()
+    public void addCustomerUnitTest()
     {
-        Customer cust1 = new Customer();
-        cust1.setFirstName("Pampari");
-        cust1.setLastName("Narender");
-        cust1.setMobileNumber("5878455448");
-        cust1.setEmail("abc@g.com");
-        
-        Address add = new Address();
-        add.setAddressId(101);
-        cust1.setAddress(add);
-        
-        InputCustomer ic = new InputCustomer();
-        ic.setCustomerId(cust1.getCustomerId());
-        
-        
-        Mockito.when(customerRepo.save(cust1)).thenReturn(cust1);
-        assertThat(customerServiceimpl.addCustomer(ic)).isEqualTo(cust1);
-    }
-    
-    @Test
-    public void deleteCustomerMockTest()
-    {
-        Customer cust = new Customer();
-        cust.setCustomerId(101);
+       
+        InputCustomer cust = new InputCustomer();
+       
         cust.setFirstName("Pampari");
         cust.setLastName("Narender");
         cust.setMobileNumber("5878455448");
         cust.setEmail("abc@g.com");
-        Address add = new Address();
-        add.setAddressId(101);
-        cust.setAddress(add);
-        
-        Mockito.when(customerRepo.findById(cust.getCustomerId())).thenReturn(Optional.of(cust));
-        Mockito.when(customerRepo.existsById(cust.getCustomerId())).thenReturn(false);
-        assertFalse(customerRepo.existsById(cust.getCustomerId()));
+        cust.setBuildingName("BK block");
+        cust.setCity("Delhi");
+        cust.setCountry("India");
+        cust.setPincode("986573");
+        cust.setState("NewDelhi");
+        cust.setStreetNo("3H");
+       
+        cust=service.addCustomer(cust);
+        assertNotNull(cust,"Customer is added");
+       
     }
-    
+   
     @Test
-    public void updateCustomerMockTest()
+    public void deleteCustomerUnitTest()
     {
-        Customer cust = new Customer();
-        cust.setFirstName("Pampari");
-        cust.setLastName("Narender");
+        InputCustomer cust =service.removeCustomer(13);
+        assertNotNull(cust, "Customer deleted !!");
+    }
+   
+    @Test
+    public void updateCustomerUnitTest()
+    {
+        InputCustomer cust = new InputCustomer();
+        cust.setAddressId(34);
+        cust.setFirstName("Vineeth");
+        cust.setLastName("Sai");
         cust.setMobileNumber("5878455448");
-        cust.setEmail("abc@g.com");
-        Address add = new Address();
-        add.setAddressId(101);
-        cust.setAddress(add);
-        
-        
-        Mockito.when(customerRepo.findById(cust.getCustomerId())).thenReturn(Optional.of(cust));
-        cust.setEmail("martin.s2000@gmail.com");
-        Mockito.when(customerRepo.save(cust)).thenReturn(cust);
-        assertThat(customerServiceimpl.updateCustomer(cust)).isEqualTo(cust);
-        
+        cust.setEmail("vinni1@g.com");
+        cust.setBuildingName("BK block");
+        cust.setCity("Delhi");
+        cust.setCountry("India");
+        cust.setPincode("986573");
+        cust.setState("NewDelhi");
+        cust.setStreetNo("3H");
+        cust.setCartId(14);
+        cust.setCustomerId(14);
+        InputCustomer cust1 = new InputCustomer();
+        cust1=service.updateCustomer(cust);
+        assertNotNull(cust1,"Customer is added");
+       
     }
-    
+   
     @Test
-    public void viewAllCustomersMockTest()
+    public void viewAllCustomersUnitTest()
     {
-        Customer cust1 = new Customer();
-        cust1.setFirstName("xyz");
-        cust1.setLastName("Narender");
-        cust1.setMobileNumber("5878455448");
-        cust1.setEmail("abc@g.com");
-        Address add1 = new Address();
-        add1.setAddressId(101);
-        cust1.setAddress(add1);
-        cust1.getAddress().setCity("chennai");
-        
-        Customer cust2 = new Customer();
-        cust2.setFirstName("abc");
-        cust2.setLastName("Narender");
-        cust2.setMobileNumber("5878455448");
-        cust2.setEmail("abc@g.com");
-        Address add2 = new Address();
-        add2.setAddressId(101);
-        cust2.setAddress(add2);
-        cust2.getAddress().setCity("Banglore");
-        
-        Customer cust3 = new Customer();
-        cust3.setFirstName("pqr");
-        cust3.setLastName("Narender");
-        cust3.setMobileNumber("5878455448");
-        cust3.setEmail("abc@g.com");
-        Address add3 = new Address();
-        add3.setAddressId(101);
-        cust3.setAddress(add3);
-        cust3.getAddress().setCity("Hyd");
-        
-        List<Customer> customer = new ArrayList<>();
-        customer.add(cust1); customer.add(cust2); customer.add(cust3);
-        
-        Mockito.when(customerRepo.viewAllCustomer("mumbai")).thenReturn(customer);
-        assertThat(customerServiceimpl.viewAllCustomers("mumbai")).isEqualTo(customer);
+        InputCustomer cust = service.viewCustomer(14);
+        assertNotNull(cust, "Customer Found!!");
     }
-    
+   
     @Test
-    public void viewCustomerMockTest()
+    public void viewCustomerUnitTest()
     {
-        Customer cust = new Customer();
-        cust.setFirstName("xyz");
-        cust.setLastName("Narender");
-        cust.setMobileNumber("5878455448");
-        cust.setEmail("abc@g.com");
-        Address add = new Address();
-        add.setAddressId(101);
-        cust.setAddress(add);
-        
-        Customer cust1 = new Customer();
-        cust1.setFirstName("pqr");
-        cust1.setLastName("Narender");
-        cust1.setMobileNumber("5878455448");
-        cust1.setEmail("abc@g.com");
-        Address add1 = new Address();
-        add1.setAddressId(102);
-        cust1.setAddress(add1);
-        
-        Mockito.when(customerRepo.findById(cust.getCustomerId())).thenReturn(Optional.of(cust));
-        assertThat(customerServiceimpl.viewCustomer(cust)).isEqualTo(cust);    
+        List<InputCustomer> cust = service.viewAllCustomers("Delhi");
+        assertNotNull(cust, "Address removed !!");
+       
     }
-    
-    
+   
+   
 }
- 

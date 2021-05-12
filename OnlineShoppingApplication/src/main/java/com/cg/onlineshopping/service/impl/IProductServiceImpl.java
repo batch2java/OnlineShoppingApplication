@@ -3,6 +3,8 @@ package com.cg.onlineshopping.service.impl;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +20,22 @@ public class IProductServiceImpl implements IProductService{
 	@Autowired
 	IProductRepository proRepo;
 	Logger logger = LoggerFactory.getLogger(IProductServiceImpl.class);
+	
+	
+	//To add product
+	@Override
+	@Transactional
+	public Product addProduct(Product product) {
+		logger.info("Product addProduct");
+		if(product == null)
+			throw new ProductNotFoundException();
+		else
+			proRepo.save(product);
+		return product;
+	}
 
-
+    //To view all products
+	@Transactional
 	@Override
 	public List<Product> viewAllProducts() {
 		logger.info("Product ProductviewAllProducts");
@@ -30,17 +46,10 @@ public class IProductServiceImpl implements IProductService{
 		return list;
 	}
 
+	
+    //To update product details
 	@Override
-	public Product addProduct(Product product) {
-		logger.info("Product addProduct");
-		if(product == null)
-			throw new ProductNotFoundException();
-		else
-			proRepo.save(product);
-		return product;
-	}
-
-	@Override
+	@Transactional
 	public Product updateProduct(Product product) {
 		logger.info("Product updateProduct");
 		if(product == null)
@@ -49,8 +58,10 @@ public class IProductServiceImpl implements IProductService{
 			proRepo.save(product);
 		return product;
 	}
-
+    
+	//To view products by id
 	@Override
+	@Transactional
 	public Product viewProduct(Integer productId) {
 		logger.info("Product viewProduct");
 		Optional<Product> viewproduct = proRepo.findById(productId);
@@ -59,8 +70,10 @@ public class IProductServiceImpl implements IProductService{
 		else
 			throw new ProductNotFoundException();
 	}
-
+	
+    //To view products by category
 	@Override
+	@Transactional
 	public List<Product> viewProductsByCategory(String category) {
 		logger.info("Product viewProduct");
 		List<Product> viewproduct = proRepo.viewAllProductsByCategory(category);
@@ -72,8 +85,9 @@ public class IProductServiceImpl implements IProductService{
 	}
 
 
-
+    //To remove products by id
 	@Override
+	@Transactional
 	public Product removeProduct(Integer productId) {
 		logger.info("Product removeProduct");
 		Optional<Product> pro = proRepo.findById(productId);

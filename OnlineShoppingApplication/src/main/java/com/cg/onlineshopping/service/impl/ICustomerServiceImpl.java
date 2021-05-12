@@ -1,7 +1,10 @@
 package com.cg.onlineshopping.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +28,29 @@ public class ICustomerServiceImpl implements ICustomerService {
 	@Autowired
 	IAddressRepository addressRepo;
 	Logger logger = LoggerFactory.getLogger(ICustomerServiceImpl.class);
-	
+	//created function to avoid repetition of code
+	public InputCustomer rowMapperCustomer(Customer c) {
+		InputCustomer cust = new InputCustomer();
+		cust.setAddressId(c.getAddress().getAddressId());
+		cust.setBuildingName(c.getAddress().getBuildingName());
+		cust.setCartId(c.getCart().getCartId());
+		cust.setCity(c.getAddress().getCity());
+		cust.setCountry(c.getAddress().getCountry());
+		cust.setCustomerId(c.getCustomerId());
+		cust.setEmail(c.getEmail());
+		cust.setFirstName(c.getFirstName());
+		cust.setLastName(c.getLastName());
+		cust.setMobileNumber(c.getMobileNumber());
+		cust.setPincode(c.getAddress().getPincode());
+		cust.setState(c.getAddress().getState());
+		cust.setStreetNo(c.getAddress().getStreetNo());
+		
+		
+		return cust;
+		
+	}
+	//To add customer
+	@Transactional
 	@Override
 	public InputCustomer addCustomer(InputCustomer cust) {
 		
@@ -64,58 +89,111 @@ public class ICustomerServiceImpl implements ICustomerService {
 			
 		}
 	
-
+    //To update customer
 	@Override
-	public Customer updateCustomer(Customer cust) {
-		logger.info("Customer updateCustomer");
-
+	@Transactional
+	public InputCustomer updateCustomer(InputCustomer cust) {
+		logger.info("InputCustomer updateCustomer()");
 	
-		if(cust== null) {
-			throw new CustomerNotFoundException();
-		}
-		else{
-			customerRepo.save(cust);
-			return cust;
-		}
-	}
+		Customer cust1= new Customer();
+        cust1 = customerRepo.findById(cust.getCustomerId()).orElse(null);
+        
+       if(cust1 == null) {
+           throw new CustomerNotFoundException();
+       }
+       
+       else{
+       
+            cust1.setCustomerId(cust.getCustomerId());
+            cust1.setFirstName(cust.getFirstName());
+            cust1.setLastName(cust.getLastName());
+            cust1.setMobileNumber(cust.getMobileNumber());
+            cust1.setEmail(cust.getEmail());
 
+
+
+            Address add = new Address();
+            add.setAddressId(cust.getAddressId());
+            add.setBuildingName(cust.getBuildingName());
+            add.setCity(cust.getCity());
+            add.setStreetNo(cust.getStreetNo());
+            add.setState(cust.getState());
+            add.setPincode(cust.getPincode());
+            add.setCountry(cust.getCountry());
+            
+            Cart cart=new Cart();
+            cart.setCartId(cust.getCartId());
+            cust1.setCart(cart);
+            cust1.setAddress(add);
+           
+           cust1=customerRepo.save(cust1);
+           cust.setCustomerId(cust1.getCustomerId());
+           cust.setAddressId(cust1.getAddress().getAddressId());
+           cust.setCartId(cust1.getCart().getCartId());
+           
+           
+           return cust;
+       }
+	}
+           
+    //To remove customer by id       
+    @Transactional
     @Override
-	public Customer removeCustomer(Customer cust) {
+	public InputCustomer removeCustomer(Integer customerId) {
     	
     	logger.info("Customer removeCustomer");
 
-		Optional<Customer> customer=customerRepo.findById(cust.getCustomerId());
+		Optional<Customer> customer=customerRepo.findById(customerId);
 		if(!customer.isPresent()) {
 			throw new CustomerNotFoundException();
 		}
 		else {
-			customerRepo.delete(cust);
-			return customer.get();	
+			customerRepo.deleteById(customerId);
+			InputCustomer cust = rowMapperCustomer(customer.get());//function call
+			return cust;
+			
 		}
 	}
-
+    //view customer by id
 	@Override
-	public Customer viewCustomer(Customer cust) {
+	@Transactional
+	public InputCustomer viewCustomer(Integer customerId) {
 		
 		logger.info("Customer viewCustomer");
+		
 
-		Optional<Customer> customer = customerRepo.findById(cust.getCustomerId());
+		Optional<Customer> customer = customerRepo.findById(customerId);
 		if(!customer.isPresent()) {
 			throw new CustomerNotFoundException();
 		}
-		else
-		return customer.get();	
+		else {
+			
+		Customer c = customer.get();
+		InputCustomer cust = rowMapperCustomer(c);//function call
+		return cust;
+		
+		
+			
 	}
-
+	}
+    //To get customer by location
 	@Override
-	public List<Customer> viewAllCustomers(String location) {
+	@Transactional
+	public List<InputCustomer> viewAllCustomers(String location) {
 		
 		logger.info("Customer viewAllCustomers");
 
 		List<Customer> list = customerRepo.viewAllCustomer(location);
 		if(list.isEmpty())
 			throw new CustomerNotFoundException();
-		else
-		return list;
+		
+			List<InputCustomer> clist = new ArrayList<InputCustomer>();
+			for(Customer c: list) {
+			
+				InputCustomer cust = rowMapperCustomer(c);
+				clist.add(cust);
+				
+			}
+		return clist;
 	}
 }

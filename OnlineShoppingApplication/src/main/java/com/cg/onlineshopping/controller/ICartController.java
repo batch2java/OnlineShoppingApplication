@@ -33,7 +33,7 @@ public class ICartController {
 	Logger logger = LoggerFactory.getLogger(ICartController.class);
 
 	
-
+     //To Add Cart
 	@PostMapping("/addcart")
 	public OutputCart addProductToCart1(@Valid @RequestBody InputCart cart)
 	{
@@ -41,13 +41,14 @@ public class ICartController {
 		return cartService.addProductToCart(cart);
 	}
 
-
+    //To Delete Products From Cart
 	@DeleteMapping("/deletecart/{productId}/{cartId}")
 	public Cart removeProductFromCart(@PathVariable Integer cartId,@PathVariable Integer productId)
 	{
 		logger.info("Cart removeProductFromCart()");
 		return cartService.removeProductFromCart(cartId, productId);
 	}
+	//To Empty Cart
 	@DeleteMapping("/emptycart/{cartId}")
 	public Cart makeCartEmpty(@PathVariable Integer cartId)
 	{
@@ -56,21 +57,8 @@ public class ICartController {
 	}
 
 
-	/*@DeleteMapping("/deletebycartid/{cartId}")
-    public Cart removeAllProductsById(@PathVariable Integer cartId)
-    {
-        logger.info("Cart removeCartById()");
-        return cartService.removeCartById(cartId);
-    }*/
-	@PutMapping("/updatecart")
-	public Cart updateProductQuantity(@RequestBody Cart cart, @RequestBody Product p, @RequestBody int quantity)
-	{
-		logger.info("Cart updateProductToCart()");
-		return cartService.updateProductQuantity(cart, p, quantity);
-	}
 
-
-
+    //To Get Products from Cart
 	@GetMapping("/getcartproducts/{cartId}")
 	public Map<Integer,Integer>  viewAllProducts( @PathVariable Integer cartId)
 	{

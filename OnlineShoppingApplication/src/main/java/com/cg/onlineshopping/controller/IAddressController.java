@@ -17,47 +17,50 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cg.onlineshopping.entities.Address;
+import com.cg.onlineshopping.pojo.InputAddress;
 import com.cg.onlineshopping.service.IAddressService;
-
 
 @RestController
 @RequestMapping("/api/v1")
 
 
 public class IAddressController {
-	@Autowired(required=true)
+	
+	@Autowired
 	IAddressService addressService;
 	Logger logger = LoggerFactory.getLogger(IAddressController.class);
 
-	
-	@PostMapping(path="/create")
-	public Address addAddress(@Valid @RequestBody Address add)
+	//To Add Address
+	@PostMapping(path="/addaddress")
+	public InputAddress addAddress(@Valid @RequestBody InputAddress add)
 	{
 		logger.info("Address addAddress()");
 		return addressService.addAddress(add);
 	}
-
-	@PutMapping("/update")
-	public Address updateAddress(@RequestBody Address add)
+    //To Update Address
+	@PutMapping("/updateaddress")
+	public InputAddress updateAddress(@RequestBody InputAddress add)
 	{
 		logger.info("Address updateAddress()");
 		return addressService.updateAddress(add);
 	}
-
-	@DeleteMapping("/deleteById/{addressId}")
-	public Address removeCustomer(@PathVariable int addressId)
+     //To Delete Address
+	@DeleteMapping("/deleteaddressById/{addressId}")
+	public InputAddress removeCustomer(@PathVariable int addressId)
 	{
 		logger.info("Address removeAddress()");
 		return addressService.removeAddress(addressId);
 	}
-	@GetMapping(path = "/getall")
-	public List<Address> viewAllAddress()
+	//To Get All Addresses
+	@GetMapping(path = "/getalladdress")
+	public List<InputAddress> viewAllAddress()
 	{
 		logger.info("Address viewAllAddress()");
 		return addressService.viewAllAddress();
 	}
-	@GetMapping(path = "/getall/{addressId}")
-	public Address viewAddress(@PathVariable int addressId)
+	//To get Address By Id
+	@GetMapping(path = "/getaddressById/{addressId}")
+	public InputAddress viewAddress(@PathVariable int addressId)
 	{
 		logger.info("Address viewAddress(addressId)");
 		return addressService.viewAddress(addressId);

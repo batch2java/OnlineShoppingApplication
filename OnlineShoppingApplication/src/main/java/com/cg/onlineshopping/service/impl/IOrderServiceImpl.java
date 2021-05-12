@@ -1,6 +1,7 @@
 package com.cg.onlineshopping.service.impl;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,7 @@ import com.cg.onlineshopping.entities.Customer;
 import com.cg.onlineshopping.entities.Order;
 import com.cg.onlineshopping.entities.Product;
 import com.cg.onlineshopping.error.OrderNotFoundException;
+import com.cg.onlineshopping.pojo.InputCustomer;
 import com.cg.onlineshopping.pojo.InputOrder;
 import com.cg.onlineshopping.repository.IAddressRepository;
 import com.cg.onlineshopping.repository.ICartRepository;
@@ -43,104 +45,21 @@ public class IOrderServiceImpl implements IOrderService {
 	@Autowired
 	ICartRepository cartRepo;
 	Logger logger = LoggerFactory.getLogger(IOrderServiceImpl.class);
-
-
-	@Override
-	@Transactional
-	public InputOrder updateOrder(InputOrder order) {
-		logger.info("Order updateOrder" );
-		
-        Order order1 = new Order();
-		
-		Customer cust = customerRepo.findById(order.getCustomerId()).orElse(null);
-		Address add = addressRepo.findById(order.getAddressId()).orElse(null);
-		order1.setOrderId(order.getOrderId());
-				
-		
-		order1.setOrderStatus(order.getOrderStatus());
-		order1.setOrderDate(order.getOrderDate());
-		order1.setCustomer(cust);
-		order1.setAddress(add);
-		cust.setOrder(order1);
-		
-		order1= orderRepo.save(order1);
-		
-		
-		/*order.setCustomerId(order1.getCustomer().getCustomerId());
-		order.setAddressId(order1.getAddress().getAddressId());*/
+	
+	//created function to avoid repetition of code
+	public InputOrder rowMapperOrder(Order o) {
+		InputOrder order = new InputOrder();
+		order.setAddressId(o.getAddress().getAddressId());
+		order.setCustomerId(o.getCustomer().getCustomerId());
+		order.setOrderDate(o.getOrderDate());
+		order.setOrderId(o.getOrderId());
+		order.setOrderStatus(o.getOrderStatus());
 		return order;
-		
-
 	}
-	
+
+    //To add order
 	@Override
 	@Transactional
-	public Order removeOrder(Integer orderId) {
-		logger.info("Order removeOrder()" );
-		Order order = orderRepo.findById(orderId).orElse(null);
-		System.out.println("123");
-		if(order!=null) {
-			order.setProducts(new HashMap<Product,Integer>());
-			order.setOrderStatus("cancel");
-			orderRepo.save(order);
-			//orderRepo.deleteById(orderId);
-			return order;
-		}
-		else {
-			throw new OrderNotFoundException();
-		}
-			
-	}
-
-	@Override
-	@Transactional
-	public Order viewOrder(Integer orderId) {
-		logger.info("Order viewOrder" );
-		Optional<Order> orders = orderRepo.findById(orderId);
-		if(!orders.isPresent())
-			throw new OrderNotFoundException();
-		else
-			return orders.get();
-		
-	}
-
-	@Override
-	@Transactional
-	public List<Order> viewAllOrderByDate(LocalDate date) {
-		logger.info("Order viewAllOrders" );
-		List<Order> order = orderRepo.viewAllOrderByDate(date);
-		if(order.isEmpty())
-			throw new OrderNotFoundException();
-		else
-			return order;
-		
-	}
-
-	
-	@Override
-	@Transactional
-	public List<Order> viewAllOrdersByLocation(String location) {
-		logger.info("Order viewAllOrdersByLocation()" );
-		List<Order> order = orderRepo.viewAllOrdersByLocation(location);
-		System.out.println(order);
-		if(order.isEmpty())
-			throw new OrderNotFoundException();
-		else
-			return order;
-	}
-
-	@Override
-	@Transactional
-	public List<Order> viewAllOrderByCustomerId(Integer customerId) {
-		logger.info("Order viewAllOrderByCustomerId" );
-		List<Order> order = orderRepo.viewAllOrdersByCustomer(customerId);
-		if(order.isEmpty())
-			throw new OrderNotFoundException();
-		else
-			return order;
-	}
-
-	@Override
 	public InputOrder addOrder(InputOrder order) {
 		logger.info("Order addOrder()");
 		Order order1 = new Order();
@@ -164,12 +83,7 @@ public class IOrderServiceImpl implements IOrderService {
 		cust.setOrder(order1);
 		
 		order1= orderRepo.save(order1);
-		//Cart clean
-		/*for(Product p: products.keySet()) {
-			cartService.removeProductFromCart(cart.getCartId(), p.getProductId());
-			
-			
-		}*/
+		
 		cart.setProducts(new HashMap<Product,Integer>());
 		cartRepo.save(cart);
 		
@@ -179,19 +93,88 @@ public class IOrderServiceImpl implements IOrderService {
 		order.setAddressId(order1.getAddress().getAddressId());
 		
 		
-		return order;
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		return order;		
 }
+
+
+	//To remove order by id
+	@Override
+	@Transactional
+	public InputOrder removeOrder(Integer orderId) {
+		logger.info("Order removeOrder()" );
+		Order order = orderRepo.findById(orderId).orElse(null);
+		
+		if(order!=null) {
+			order.setProducts(new HashMap<Product,Integer>());
+			order.setOrderStatus("cancel");
+			orderRepo.save(order);
+			orderRepo.deleteById(orderId);
+			InputOrder order1 = rowMapperOrder(order);
+			return order1;
+			
+		}
+		else {
+			throw new OrderNotFoundException();
+		}
+			
+	}
+
+	
+	
+    //To view order by date
+	@Override
+	@Transactional
+	public List<InputOrder> viewAllOrderByDate(LocalDate date) {
+		logger.info("Order viewAllOrders" );
+		List<Order> order = orderRepo.viewAllOrderByDate(date);
+		if(order.isEmpty())
+			
+		throw new OrderNotFoundException();
+		List<InputOrder> olist = new ArrayList<InputOrder>();
+		for(Order o: order) {
+		
+			InputOrder order1 = rowMapperOrder(o);
+			olist.add(order1);
+			
+		}
+	return olist;
+	}
+
+	//To view order by location	
+	@Override
+	@Transactional
+	public List<InputOrder> viewAllOrdersByLocation(String location) {
+		logger.info("Order viewAllOrdersByLocation()" );
+		List<Order> order = orderRepo.viewAllOrdersByLocation(location);
+		System.out.println(order);
+		if(order.isEmpty())
+			throw new OrderNotFoundException();
+		List<InputOrder> olist = new ArrayList<InputOrder>();
+		for(Order o: order) {
+		
+			InputOrder order1 = rowMapperOrder(o);
+			olist.add(order1);
+			
+		}
+	return olist;
+	}
+	
+    //view order by customer id
+	@Override
+	@Transactional
+	public List<InputOrder> viewAllOrderByCustomerId(Integer customerId) {
+		logger.info("Order viewAllOrderByCustomerId" );
+		List<Order> order = orderRepo.viewAllOrdersByCustomer(customerId);
+		if(order.isEmpty())
+			throw new OrderNotFoundException();
+		List<InputOrder> olist = new ArrayList<InputOrder>();
+		for(Order o: order) {
+		
+			InputOrder order1 = rowMapperOrder(o);
+			olist.add(order1);
+			
+		}
+	return olist;
+	}
+
 }
