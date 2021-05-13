@@ -18,7 +18,7 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "customer_seq")
     @SequenceGenerator(sequenceName = "customer_seq", allocationSize = 1, name = "customer_seq")
 	private Integer customerId;
-
+    //validations
 	@NotEmpty(message= "First Name can not be null")
 	private String firstName;
 	@NotEmpty(message= "Last Name can not be null")
@@ -31,8 +31,6 @@ public class Customer {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "address")
 	private Address address;
-//	@OneToOne
-//	private User user;
 	@OneToOne(cascade = CascadeType.ALL,mappedBy = "customer")
 	private Order order;
 	@OneToOne(cascade = CascadeType.ALL,mappedBy = "customer")

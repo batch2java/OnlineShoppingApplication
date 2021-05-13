@@ -45,7 +45,7 @@ import com.cg.onlineshopping.repository.IProductRepository;
 	        product.setCategory(cat);
 	        
 	        Mockito.when(productRepo.save(product)).thenReturn(product);
-	        assertThat(productServiceImpl.addProduct(product)).isEqualTo(product);
+	        assertThat(productServiceImpl.addProduct(null)).isEqualTo(product);
 	    }
 	    
 	    @Test

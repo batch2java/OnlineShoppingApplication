@@ -2,7 +2,6 @@ package com.cg.onlineshopping.service;
 
 import java.util.List;
 
-import com.cg.onlineshopping.entities.Customer;
 import com.cg.onlineshopping.pojo.InputCustomer;
 
 public interface ICustomerService {

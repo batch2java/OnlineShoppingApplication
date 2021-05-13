@@ -10,8 +10,10 @@ public class InputOrder {
 	private Integer orderId;
 	@NotEmpty(message= "orderStatus can not be null")
 	private String orderStatus;
+	//@ApiModelProperty(required = true, dataType="date")  
+	//@JsonFormat(pattern = DATE_FORMAT)   
 	@JsonFormat(pattern = "yyyy-MM-dd")
-	@NotEmpty(message= "orderDate can not be null")
+	//@NotEmpty(message= "orderDate can not be null")
 	private LocalDate orderDate;
 	private Integer addressId;
 	private Integer customerId;

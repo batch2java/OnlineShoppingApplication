@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.cg.onlineshopping.entities.Customer;
 import com.cg.onlineshopping.pojo.InputCustomer;
 import com.cg.onlineshopping.service.ICustomerService;
 

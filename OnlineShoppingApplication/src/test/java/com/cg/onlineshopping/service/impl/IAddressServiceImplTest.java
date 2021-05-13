@@ -8,13 +8,11 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 
 import com.cg.onlineshopping.pojo.InputAddress;
-import com.cg.onlineshopping.repository.IAddressRepository;
 import com.cg.onlineshopping.service.IAddressService;
 
 
@@ -26,19 +24,15 @@ class IAddressServiceImplTest {
      @InjectMocks
      IAdressServiceImpl addressServiceImpl;
      
-     @Mock
-     IAddressRepository addressRepo;
     
         
      @Autowired
      IAddressService service;
      
       
-        //Mock Test
         
         
-     
-     //Functionality Level Test
+      //Functionality Level Test
     
      @Test
      public void addAddressUnitTest()
@@ -76,7 +70,7 @@ class IAddressServiceImplTest {
      @Test
      public void removeAddressUnitTest()
      {
-         InputAddress add=service.removeAddress(28);
+         InputAddress add=service.removeAddress(3);
          assertNotNull(add, "Address removed !!");
      }
     
@@ -84,7 +78,7 @@ class IAddressServiceImplTest {
      @Test
      public void viewAddressByIdUnitTest()
      {
-         InputAddress add = service.viewAddress(29);
+         InputAddress add = service.viewAddress(1);
          assertNotNull(add,"Address found!");
         
      }

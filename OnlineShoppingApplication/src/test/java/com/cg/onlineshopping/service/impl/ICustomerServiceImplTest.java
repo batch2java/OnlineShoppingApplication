@@ -84,7 +84,7 @@ class ICustomerServiceImplTest {
     @Test
     public void viewAllCustomersUnitTest()
     {
-        InputCustomer cust = service.viewCustomer(14);
+        InputCustomer cust = service.viewCustomer(2);
         assertNotNull(cust, "Customer Found!!");
     }
    
